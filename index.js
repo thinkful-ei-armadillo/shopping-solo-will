@@ -1,11 +1,16 @@
 'use strict';
+/* global $ */
 
-const STORE = [
-  {name: 'apples', checked: false},
-  {name: 'oranges', checked: false},
-  {name: 'milk', checked: true},
-  {name: 'bread', checked: false}
-];
+const STORE = {
+  items: 
+    [
+      {name: 'apples', checked: false},
+      {name: 'oranges', checked: false},
+      {name: 'milk', checked: true},
+      {name: 'bread', checked: false}
+    ],
+  hideChecked: false
+};
 
 
 function generateItemElement(item, itemIndex, template) {
@@ -26,26 +31,45 @@ function generateItemElement(item, itemIndex, template) {
 
 function generateShoppingItemsString(shoppingList) {
   console.log('Generating shopping list element');
-
   const items = shoppingList.map((item, index) => generateItemElement(item, index));
-  
   return items.join('');
 }
+
+function toggleCheckedItem() {
+  STORE.hideChecked = !STORE.hideChecked;
+  console.log('toggle check');
+}
+
+function handleToggleCheckedItem() {
+  $('#hide-completed-checkbox').on('click', event => {
+    console.log('`handleToggleCheckedItem` ran');
+    toggleCheckedItem();
+    renderShoppingList();
+  });
+}
+
 
 
 function renderShoppingList() {
   // render the shopping list in the DOM
   console.log('`renderShoppingList` ran');
-  const shoppingListItemsString = generateShoppingItemsString(STORE);
-
-  // insert that HTML into the DOM
+  if (STORE.hideChecked) {
+    const filtered = STORE.items.filter(item => !item.checked);
+    let shoppingListItemsString = generateShoppingItemsString(filtered); 
+    $('.js-shopping-list').html(shoppingListItemsString);
+  } else {
+  // if else condition to filter out the items that are checked 
+    let shoppingListItemsString = generateShoppingItemsString(STORE.items);
+    // insert that HTML into the DOM
   $('.js-shopping-list').html(shoppingListItemsString);
+  // const shoppingListItemsString = STORE.hideCompleted ? generateShoppingItemsString(STORE.items.filter(item => !item.checked)) : generateShoppingItemsString(STORE.items);
+  // $('.js-shopping-list').html(shoppingListItemsString);
 }
 
 
 function addItemToShoppingList(itemName) {
   console.log(`Adding "${itemName}" to shopping list`);
-  STORE.push({name: itemName, checked: false});
+  STORE.items.push({name: itemName, checked: false});
 }
 
 function handleNewItemSubmit() {
@@ -61,7 +85,7 @@ function handleNewItemSubmit() {
 
 function toggleCheckedForListItem(itemIndex) {
   console.log('Toggling checked property for item at index ' + itemIndex);
-  STORE[itemIndex].checked = !STORE[itemIndex].checked;
+  STORE.items[itemIndex].checked = !STORE.items[itemIndex].checked;
 }
 
 
@@ -84,7 +108,7 @@ function handleItemCheckClicked() {
 
 function deleteItemFromList(itemIndex) {
   console.log('Delete item at index ' + itemIndex);
-  STORE.splice(itemIndex, 1);
+  STORE.items.splice(itemIndex, 1);
 }
 
 
@@ -106,14 +130,13 @@ function handleShoppingList() {
   handleNewItemSubmit();
   handleItemCheckClicked();
   handleDeleteItemClicked();
+  handleToggleCheckedItem();
 }
+
 
 // when the page loads, call `handleShoppingList`
 $(handleShoppingList);
-
-
-
-
+console.log('testing');
 
 /*
 
@@ -144,7 +167,6 @@ const STORE = {
   }
 }
 
-
 function toggleHideCheckedState() {
   STORE.hideChecked = !STORE.hideChecked;
 }
@@ -157,5 +179,4 @@ function handleToggleCheckedItem() {
     renderShoppingList();
   }
 }
-
 */

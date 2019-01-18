@@ -41,29 +41,40 @@ function toggleCheckedItem() {
 }
 
 function handleToggleCheckedItem() {
-  $('#hide-completed-checkbox').on('click', event => {
+  $('#js-hide-completed-checkbox').on('click', event => {
     console.log('`handleToggleCheckedItem` ran');
     toggleCheckedItem();
     renderShoppingList();
   });
 }
 
+// function toggleHideCheckedState(){
+//   STORE.hideChecked = !STORE.hideChecked;
+// }
+// function handleToggleCheckedItems(){
+//   $('#hide-completed-checkbox').on('click', event =>{
+//     console.log('======handleToggleCheckedItems ran======');
+//     toggleHideCheckedState();
+//     renderShoppingList(); 
+//   });
+// }
+
 
 
 function renderShoppingList() {
-  // render the shopping list in the DOM
-  console.log('`renderShoppingList` ran');
-  if (STORE.hideChecked) {
-    const filtered = STORE.items.filter(item => !item.checked);
-    let shoppingListItemsString = generateShoppingItemsString(filtered); 
-    $('.js-shopping-list').html(shoppingListItemsString);
-  } else {
-  // if else condition to filter out the items that are checked 
-    let shoppingListItemsString = generateShoppingItemsString(STORE.items);
-    // insert that HTML into the DOM
-  $('.js-shopping-list').html(shoppingListItemsString);
-  // const shoppingListItemsString = STORE.hideCompleted ? generateShoppingItemsString(STORE.items.filter(item => !item.checked)) : generateShoppingItemsString(STORE.items);
+  // // render the shopping list in the DOM
+  // console.log('`renderShoppingList` ran');
+  // if (STORE.hideChecked) {
+  //   const filtered = STORE.items.filter(item => !item.checked);
+  //   let shoppingListItemsString = generateShoppingItemsString(filtered); 
+  //   $('.js-shopping-list').html(shoppingListItemsString);
+  // } else {
+  // // if else condition to filter out the items that are checked 
+  //   let shoppingListItemsString = generateShoppingItemsString(STORE.items);
+  //   // insert that HTML into the DOM
   // $('.js-shopping-list').html(shoppingListItemsString);
+  const shoppingListItemsString = STORE.hideChecked ? generateShoppingItemsString(STORE.items.filter(item => !item.checked)) : generateShoppingItemsString(STORE.items);
+  $('.js-shopping-list').html(shoppingListItemsString);
 }
 
 

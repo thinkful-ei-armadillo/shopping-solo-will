@@ -21,6 +21,10 @@
   #shopping-list-item {
     width: 250px;
   }
+
+  #js-search-form {
+    padding: 10px 0 10px 0;
+  }
   
   .container {
     max-width: 600px;

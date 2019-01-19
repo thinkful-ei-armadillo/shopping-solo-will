@@ -9,7 +9,7 @@ const STORE = {
       {name: 'milk', checked: true},
       {name: 'bread', checked: false}
     ],
-  hideChecked: false
+  hideCompleted: false
 };
 
 
@@ -30,14 +30,12 @@ function generateItemElement(item, itemIndex, template) {
 
 
 function generateShoppingItemsString(shoppingList) {
-  console.log('Generating shopping list element');
   const items = shoppingList.map((item, index) => generateItemElement(item, index));
   return items.join('');
 }
 
 function toggleCheckedItem() {
-  STORE.hideChecked = !STORE.hideChecked;
-  console.log('toggle check');
+  STORE.hideCompleted = !STORE.hideCompleted;
 }
 
 function handleToggleCheckedItem() {
@@ -51,7 +49,7 @@ function handleToggleCheckedItem() {
 function renderShoppingList() {
   // render the shopping list in the DOM
   console.log('`renderShoppingList` ran');
-  if (STORE.hideChecked) {
+  if (STORE.hideCompleted) {
     const filtered = STORE.items.filter(item => !item.checked);
     let shoppingListItemsString = generateShoppingItemsString(filtered); 
     $('.js-shopping-list').html(shoppingListItemsString);
@@ -62,7 +60,7 @@ function renderShoppingList() {
     $('.js-shopping-list').html(shoppingListItemsString);
   }
   // ----- alternative with ternary ------
-  // const shoppingListItemsString = STORE.hideChecked ? generateShoppingItemsString(STORE.items.filter(item => !item.checked)) : generateShoppingItemsString(STORE.items);
+  // const shoppingListItemsString = STORE.hideCompleted ? generateShoppingItemsString(STORE.items.filter(item => !item.checked)) : generateShoppingItemsString(STORE.items);
   // $('.js-shopping-list').html(shoppingListItemsString);
 }
 
@@ -82,6 +80,7 @@ function handleNewItemSubmit() {
     renderShoppingList();
   });
 }
+
 
 function toggleCheckedForListItem(itemIndex) {
   console.log('Toggling checked property for item at index ' + itemIndex);
@@ -121,6 +120,29 @@ function handleDeleteItemClicked() {
   });
 }
 
+// create function to grab value of user input (similar to handleNewItemSubmit)
+function handleNewSearchItem() {
+  $('#js-shopping-list-form').submit(function(event) {
+    event.preventDefault();
+    console.log('handleNewSearchItem ran');
+    const newSearchItem = $('.js-search-entry').val();
+    $('.js-search-entry').val('');
+    // callback function for filtering name
+    // renderShoppingList();
+  });
+}
+
+
+// create function to iterate through and filter STORE.items for the value of user input grabbed from search value
+// maybe use hide completed implementation?
+
+
+
+
+
+
+
+
 // this function will be our callback when the page loads. it's responsible for
 // initially rendering the shopping list, and activating our individual functions
 // that handle new item submission and user clicks on the "check" and "delete" buttons
@@ -131,6 +153,7 @@ function handleShoppingList() {
   handleItemCheckClicked();
   handleDeleteItemClicked();
   handleToggleCheckedItem();
+  // handleNewSearchItem();
 }
 
 
@@ -146,36 +169,11 @@ function renderShoppingList() {
   const html = STORE.item.map((item, index) => generateHtml(item, index)).join('');
   console.log('`renderShoppingList` ran');
   // let filteredItems = [...STORE.items];
-  // if (STORE.hidechecked) {
+  // if (STORE.hideCompleted) {
     filteredItems = filteredItems.filter(item => {
       items.checked === false;
     })
   }
   return $('.js-shopping-list').html(html);
 }
-
-Afternoon workshop notes:
-const STORE = {
-  items: {
-    [
-      {name: 'apples', checked: false},
-      {name: 'oranges', checked: false},
-      {name: 'milk', checked: true},
-      {name: 'bread', checked: false}
-    ];
-    hideChecked: false;
-  }
-}
-
-function toggleHideCheckedState() {
-  STORE.hideChecked = !STORE.hideChecked;
-}
-
-function handleToggleCheckedItem() {
-  $(#hide-completed-checkbox').click () => {
-    // change the StORE
-    toggleHideChckedState();
-    // renderShoppingList();
-    renderShoppingList();
-  }
 */

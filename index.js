@@ -16,7 +16,7 @@ const STORE = {
 function generateItemElement(item, itemIndex, template) {
   return `
     <li class="js-item-index-element" data-item-index="${itemIndex}">
-      <span class="shopping-item js-shopping-item ${item.checked ? 'shopping-item__checked' : ''}">${item.name}</span>
+      <span class="shopping-item js-shopping-item ${item.checked ? 'shopping-item__checked' : ''}">${item.name}</span><input type="text" class="edit" style="display:none"/>
       <div class="shopping-item-controls">
         <button class="shopping-item-toggle js-item-toggle">
             <span class="button-label">check</span>
@@ -45,6 +45,7 @@ function renderShoppingList(shoppingList = STORE.items) { // set default paramet
     let shoppingListItemsString = generateShoppingItemsString(shoppingList);
     // insert that HTML into the DOM
     $('.js-shopping-list').html(shoppingListItemsString);
+    editItemOnClick(); // run edit function on every page render
   }
 }
 
@@ -153,10 +154,15 @@ function handleNewSearchItem() {
 
 // ====================== EDIT FUNCTIONALITY ===========================
 
-
-
-
-
+// Can improve edit functionality to save edit on keypress event 'enter' || event.which == 13?
+function editItemOnClick() {
+  $('.js-shopping-item').click(function() {
+    $(this).hide().siblings('.edit').show().val($(this).text()).focus();
+  });
+  $('.edit').focusout(function() {
+    $(this).hide().siblings('.js-shopping-item').show().text($(this).val());
+  });
+}
 
 
 
